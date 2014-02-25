@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>The Ways of Spring Batch</title>
+
+		<meta name="description" content="A framework for creating batch applications">
+		<meta name="author" content="Michael T Minella">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/spring.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+		<style>
+			h2.long_ago {
+				font-family: "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif;
+				text-align: left;
+				font-size: 50px;
+				text-transform: none;
+				color: rgb(75,213,238);
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>The Ways of Spring Batch</h1>
+					<h3>An introduction to Spring Batch</h3>
+					<p>
+						<small>Created by <a href="http://spring.io/team/mminella">Michael Minella</a> / <a href="http://twitter.com/michaelminella">@michaelminella</a></small>
+					</p>
+				</section>
+
+				<section data-background="#000" data-transition="fade">
+					<h2 class="long_ago">A long time ago, in a basement<br>far, far away...</h2>
+				</section>
+
+				<section data-background="#000" data-transition="fade">
+					<video id="starWarsKid" controls="controls" 
+					       src="./video/starWarsKid.mp4"
+					       width="720" height="540"
+					       preload="auto">
+					</video>
+				</section>
+
+				<section data-state="bio">
+					<h1>About the Speaker</h1>
+					<img id="proSpringBatch" src="./img/proSpringBatch.jpg" style="transform: rotate(-20deg) scale(.7);float:left;visibility:hidden;"/>
+					<ul>
+						<li class="fragment" id="author">Author of Pro Spring Batch</li>
+						<li class="fragment">Member of the expert group for JSR-352</li>
+						<li class="fragment">Project lead for Spring Batch</li>
+						<li class="fragment">Twitter: <a href="http://www.twitter.com/michaelminella">@michaelminella</a></li>
+						<li class="fragment">I am <em>not</em> involved in the making of that video</li>
+					</ul>
+				</section>
+
+				<section>
+					<h1>What are we going to talk about?</h1>
+				</section>
+
+				<section>
+					<h1>3</h1>
+				</section>
+
+				<section>
+					<h1>Batch Processing</h1>
+				</section>
+
+				<section>
+					<h1>Spring Batch Concepts</h1>
+				</section>
+
+				<section>
+					<h1>Build an app</h1>
+				</section>
+
+				<section>
+					<h1>What's with the video?</h1>
+				</section>
+
+				<section data-background="./img/episodeIII.png">
+					<ul style="margin-top:100px;">
+						<li class="fragment">Released in 2003</li>
+						<li class="fragment">1.1 million downloads in the first 2 weeks</li>
+						<li class="fragment">Downloaded 40 million downloads on YouTube</li>
+						<li class="fragment">2008 Apache Logs were released</li>
+						<li class="fragment">Who is watching this?</li>
+					</ul>
+					<aside class="notes">
+						<ul>
+							<li>Released in 2003</li>
+							<li>2003 was the year MySpace was founded</li>
+							<li>Zuckerberg would start coding Facebook the next year</li>
+							<li>2 years before YouTube existed</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h1>How can we find out?</h1>
+				</section>
+
+				<section>
+					<h1>Batch Processing to the rescue!</h1>
+				</section>
+
+				<section data-background="./img/question.jpg">
+					<h2 style="margin-left:350px;" class="fragment">What is<br/>batch processing?</h2>
+				</section>
+
+				<section data-background="white">
+					<h3 style="text-shadow:3px 3px 3px #DDD;color:gray;text-transform:none;"><span style="color:#D69827;">Batch processing</span>, ... is defined as the<br/><span style="color:#800000">processing of data without interaction or<br/>interruption</span></h3>
+					<img style="box-shadow:none;" src="./img/proSpringBatchPerspective.png"/>
+				</section>
+
+				<section data-background="./img/RockClimbing.jpg">
+					<h3 class="fragment" style="color:black;">Maintainability</h3>
+					<h3 class="fragment" style="color:black;">Scalability</h3>
+					<h3 class="fragment" style="color:black;">Availability/Reliability</h3>
+					<h3 class="fragment" style="color:black;">Extensibility</h3>
+					<h3 class="fragment" style="color:black;">Security</h3>
+					<h3 class="fragment" style="color:black;">Portability</h3>
+					<aside class="notes">
+						<ul>
+							<li>Twitter: 243million a day</li>
+							<li>Pandora: 10million a day</li>
+							<li>MySpace: 7million a day</li>
+						</ul>
+						Stats from semrush.com
+					</aside>
+				</section>
+
+				<section>
+					<h1>Enter Spring Batch</h1>
+				</section>
+
+				<section data-background="white">
+					<div>
+						<img style="width:50%;box-shadow:none;" src="./img/springsource.png"/>
+						<img class="fragment" style="width:50%;box-shadow:none;" src="./img/Accenture.png"/>
+					</div>
+				</section>
+
+				<section>
+					<h1>Features</h1>
+					<ul>
+						<li class="fragment">Transaction management</li>
+						<li class="fragment">Chunk based processing</li>
+						<li class="fragment">Declaritive I/O</li>
+						<li class="fragment">Start/Stop</li>
+						<li class="fragment">Retry/Skip</li>
+						<li class="fragment">Scalability options including:
+							<ul>
+								<li class="fragment">Multithreaded steps</li>
+								<li class="fragment">Parallel steps</li>
+								<li class="fragment">Remote chunking</li>
+								<li class="fragment">Partitioning</li>
+							</ul>
+						</li>
+						<li class="fragment">Hadoop integration</li>
+					</ul>
+				</section>
+
+				<section>
+					<h1>What can I use it for?</h1>
+				</section>
+
+				<section>
+					<h1>Anything that doesn't require interaction</h1>
+				</section>
+
+				<section id="uses">
+					<h1>Uses</h1>
+					<h3 class="fragment">Nightly batch processing</h3>
+					<h3 class="fragment">ETL processing</h3>
+					<h3 class="fragment">Multithreaded processing</h3>
+					<h3 class="fragment">Master/slave configurations</h3>
+					<h3 class="fragment">Hadoop orchestration</h3>
+				</section>
+
+				<section>
+					<h1 style="margin-bottom:50px;">A Batch Application</h1>
+					<div style="margin:auto;width:650px;color:black;">
+						<div data-fragment-index="3" class="fragment" style="color:white;border: 1px solid black;background:#123EB1;width:650px;height:160px;">Application</div>
+						<div data-fragment-index="2" class="fragment" style="border: 1px solid black;background:#F5CE00;width:630px;-webkit-transform:translate(10px,-110px);">Core</div>
+						<div class="fragment" data-fragment-index="1" style="border: 1px solid black;background:#F97100;width:630px;-webkit-transform:translate(10px,-110px);">Infrastructure</div>
+					</div>
+				</section>
+
+				<section data-background="black" data-transition="fade">
+					<img src="./img/yodaSpeak.jpg" style="width:75%;"/>
+				</section>
+
+				<section id="lingo">
+					<h1>Lingo</h1>
+					<h2 class="fragment">Job</h2>
+					<h2 class="fragment">Step</h2>
+					<h2 class="fragment">Item</h2>
+					<h2 class="fragment">Chunk</h2>
+				</section>
+
+				<section>
+					<h1>A Job</h1>
+					<div style="display:table;margin:auto;margin-top:150px;">
+							<div style="display:table-row;height:500px;">
+								<div class="fragment" style="display:table-cell;">
+									<div style="vertical-align:middle;display:table-cell;">&rarr;</div>
+									<div style="display:table-cell;height:100%;">
+										<div style="border:1px solid black;background:#507642;padding:10px;color:black;height:250px;">
+											<div><b>Step 1</b>
+												<div style="color:white;border:1px solid black;background:#86942A;padding:10px;margin:50px 0 0 0;">Tasklet</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="fragment" style="display:table-cell;">
+									<div style="vertical-align:middle;display:table-cell;">&rarr;</div>
+									<div style="display:table-cell;">
+										<div style="border:1px solid black;background:#507642;padding:10px;color:black;">
+											<div><b>Step 2</b>
+												<div style="">
+													<div style="border:1px solid black;background:#F3F4EC;padding:10px;margin-top:10px;">Reader</div>
+													<div style="border:1px solid black;background:#CCCFBC;padding:10px;">Processor</div>
+													<div style="border:1px solid black;background:#A37B45;padding:10px;">Writer</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="fragment" style="display:table-cell;">
+									<div style="vertical-align:middle;display:table-cell;">&rarr;</div>
+									<div style="display:table-cell;">
+										<div style="border:1px solid black;background:#507642;padding:10px;color:black;height:250px;">
+											<div><b>Step 3</b>
+												<div style="color:white;border:1px solid black;background:#86942A;padding:10px;margin:50px 0 0 0;">Tasklet</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+				</section>
+
+				<section>
+					<h1>Chunk based processing</h1>
+					<img src="./img/chunkSequence.png" style="width:60%;"/>
+				</section>
+
+				<section>
+					<h1>State Management</h1>
+					<img src="./img/jobRepository.png" style="width:80%;"/>
+				</section>
+
+				<section>
+					<h1>Our Job</h1>
+				</section>
+
+				<section>
+					<h1>Spring Boot</h1>
+				</section>
+
+				<section>
+					<h1>Star Wars Job</h1>
+					<div style="display:table;margin:auto;margin-top:150px;">
+							<div style="display:table-row;height:500px;">
+								<div class="fragment" style="display:table-cell;">
+									<div style="vertical-align:middle;display:table-cell;">&rarr;</div>
+									<div style="display:table-cell;height:100%;">
+										<div style="border:1px solid black;background:#507642;padding:10px;color:black;height:250px;">
+											<div><b>Split Files</b>
+												<div style="color:white;border:1px solid black;background:#86942A;padding:10px;margin:50px 0 0 0;">SystemCommandTasklet</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="fragment" style="display:table-cell;">
+									<div style="vertical-align:middle;display:table-cell;">&rarr;</div>
+									<div style="display:table-cell;">
+										<div style="border:1px solid black;background:#507642;padding:10px;color:black;">
+											<div><b>Import</b>
+												<div style="">
+													<div style="border:1px solid black;background:#F3F4EC;padding:10px;margin-top:10px;">FlatFileItemReader</div>
+													<div style="border:1px solid black;background:#CCCFBC;padding:10px;">GeocodingItemProcessor</div>
+													<div style="border:1px solid black;background:#A37B45;padding:10px;">JdbcBatchItemWriter</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="fragment" style="display:table-cell;">
+									<div style="vertical-align:middle;display:table-cell;">&rarr;</div>
+									<div style="display:table-cell;">
+										<div style="border:1px solid black;background:#507642;padding:10px;color:black;height:250px;">
+											<div><b>Generate Report</b>
+												<div style="color:white;border:1px solid black;background:#86942A;padding:10px;margin:50px 0 0 0;">ReportTasklet</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+				</section>
+
+				<section data-background="./img/question.jpg">
+				</section>
+
+				<section data-background="black" data-transition="fade">
+					<img src="./img/do_donot.jpg"/>
+				</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				<section>
+					<h3>Images provided by</h3>
+					<ul>
+						<li>http://www.flickr.com/photos/quinnanya/4718215678/</li>
+						<li>http://www.flickr.com/photos/lastbeats/2550737319/</li>
+						<li>https://i.chzbgr.com/maxW500/2316855552/hC3AE2E25/</li>
+					</ul>
+				</section>
+
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+			var curFragment;
+
+			Reveal.addEventListener( 'fragmentshown', function( event ) {
+			    var element = event.fragment;
+
+			    console.log(element.parentNode.id);
+
+			    if(element.id == "author") {
+			    	document.getElementById("proSpringBatch").style.visibility = 'visible';
+			    } else {
+			    	if(element.parentNode.id == "lingo" || element.parentNode.id == "uses") {
+			    		if(curFragment != null) {
+			    			curFragment.style.opacity = .25;
+			    		} 
+
+			    		curFragment = element;
+			    	}
+			    }
+			} );
+
+			Reveal.addEventListener( 'fragmenthidden', function( event ) {
+			    var element = event.fragment;
+
+			    if(element.id == "author") {
+			    	document.getElementById("proSpringBatch").style.visibility = 'hidden';
+			    } 
+			} );
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: false,
+				progress: true,
+				history: true,
+				center: true,
+				width: 1280,
+				height: 720,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
